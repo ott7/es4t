@@ -7,20 +7,42 @@
 </head>
 <body>
 <script>
-(function () {
-    if (location.pathname !== '/' && location.pathname !== '/index.html') {
-        return;
-    }
+(async function () {
+
+    const isHome =
+        location.pathname === '/' ||
+        location.pathname === '/index.html';
+
+    const isArticlePath =
+        location.pathname.startsWith('/articles/');
 
     const params = new URLSearchParams(location.search);
     const index = params.get('index');
 
-    if (index) {
-        location.replace(`/articles/${index}`);
+    if (isHome) {
+        if (index) {
+            const target = `/articles/${index}`;
+            const res = await fetch(target, { method: 'HEAD' });
+
+            if (res.ok) {
+                location.replace(target);
+            } else {
+                location.replace('/articles/latest');
+            }
+        } else {
+            location.replace('/articles/latest');
+        }
         return;
     }
 
-    location.replace('/articles/latest');
+    if (isArticlePath) {
+        const res = await fetch(location.pathname, { method: 'HEAD' });
+
+        if (!res.ok) {
+            location.replace('/articles/latest');
+        }
+    }
+
 })();
 </script>
 </body>
