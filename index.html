@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>oevon.com</title>
+  <script>
+    (function () {
+      const params = new URLSearchParams(window.location.search);
+      const index = params.get('index');
+
+      if (index) {
+        fetch(`./articles/${index}.html`, { method: 'HEAD' })
+          .then(res => {
+            if (res.ok) {
+              window.location.replace(`./articles/${index}.html`);
+            } else {
+              window.location.replace('./homepage.html');
+            }
+          })
+          .catch(() => {
+            window.location.replace('./homepage.html');
+          });
+      } else {
+        window.location.replace('./homepage.html');
+      }
+    })();
+  </script>
+</head>
+<body></body>
+</html>
