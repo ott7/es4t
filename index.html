@@ -8,25 +8,29 @@
 <body>
 <script>
 (async function () {
-
-    const isHome =
-        location.pathname === '/' ||
-        location.pathname === '/index.html';
-
-    const isArticlePath =
-        location.pathname.startsWith('/articles/');
+    const currentPath = location.pathname.toLowerCase();
+    const isHome = currentPath === '/' || currentPath === '/index.html';
+    const isArticlePath = currentPath.startsWith('/articles/');
 
     const params = new URLSearchParams(location.search);
     const index = params.get('index');
+    const validIndex = index && index.trim();
 
     if (isHome) {
-        if (index) {
-            const target = `/articles/${index}`;
-            const res = await fetch(target, { method: 'HEAD' });
+        if (validIndex) {
+            const target = `/articles/${validIndex.trim()}`;
+            try {
+                const res = await fetch(target, { 
+                    method: 'HEAD',
+                    timeout: 3000
+                });
 
-            if (res.ok) {
-                location.replace(target);
-            } else {
+                if (res.ok) {
+                    location.replace(target);
+                } else {
+                    location.replace('/articles/latest');
+                }
+            } catch (error) {
                 location.replace('/articles/latest');
             }
         } else {
@@ -36,9 +40,15 @@
     }
 
     if (isArticlePath) {
-        const res = await fetch(location.pathname, { method: 'HEAD' });
-
-        if (!res.ok) {
+        try {
+            const res = await fetch(currentPath, { 
+                method: 'HEAD',
+                timeout: 3000
+            });
+            if (!res.ok) {
+                location.replace('/articles/latest');
+            }
+        } catch (error) {
             location.replace('/articles/latest');
         }
     }
