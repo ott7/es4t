@@ -5,29 +5,23 @@
     <title>oevon.com</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
-
 <body>
-  <main id="article-content">Loading…</main>
+<script>
+(function () {
+    if (location.pathname !== '/' && location.pathname !== '/index.html') {
+        return;
+    }
 
-    <script>
-    (function () {
-        const params = new URLSearchParams(location.search);
-        const page = params.get('index') || 'homepage';
+    const params = new URLSearchParams(location.search);
+    const index = params.get('index');
 
-        const target = `/articles/${page}.html`;
+    if (index) {
+        location.replace(`/articles/${index}`);
+        return;
+    }
 
-        fetch(target, { method: 'HEAD' })
-            .then(res => {
-                if (res.ok) {
-                    location.replace(target);
-                } else {
-                    location.replace('/articles/homepage.html');
-                }
-            })
-            .catch(() => {
-                location.replace('/articles/homepage.html');
-            });
-    })();
-    </script>
-  </body>
+    location.replace('/articles/latest');
+})();
+</script>
+</body>
 </html>
