@@ -9,23 +9,25 @@
 <body>
   <main id="article-content">Loading…</main>
 
-  <script>
+    <script>
     (function () {
         const params = new URLSearchParams(location.search);
-        const page = params.get('p') || 'homepage';
+        const page = params.get('index') || 'homepage';
 
-        fetch(`/articles/${page}.html`)
+        const target = `/articles/${page}.html`;
+
+        fetch(target, { method: 'HEAD' })
             .then(res => {
-                if (!res.ok) throw new Error('not found');
-                return res.text();
-            })
-            .then(html => {
-                document.getElementById('article-content').innerHTML = html;
+                if (res.ok) {
+                    location.replace(target);
+                } else {
+                    location.replace('/articles/homepage.html');
+                }
             })
             .catch(() => {
-                document.getElementById('article-content').innerHTML = '页面不存在';
+                location.replace('/articles/homepage.html');
             });
     })();
-  </script>
+    </script>
   </body>
 </html>
