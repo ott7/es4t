@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>ESTO 服务</title>
+    <link href="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/5.3.1/css/bootstrap.min.css" rel="stylesheet">
+    <style>body{font-family:system-ui,sans-serif;font-weight:500;font-style:normal;font-size:13px;color:#1D1D1F;background-color:#F5F5F7;display:flex;flex-direction:column}@media (prefers-color-scheme:dark){body,.info-panel{color:#ECECEC;background-color:#212121}}</style>
+</head>
+
+<body>
+    <main id="article-content">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=BBH+Sans+Hegarty&family=Bebas+Neue&display=swap" rel="stylesheet">
+<style>
+    .bebas-neue-regular {font-family: "Bebas Neue", sans-serif; font-weight: 400;}
+    .bbh-sans-hegarty-regular {
+  font-family: "BBH Sans Hegarty", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+    #content-box, #bottom-panel {max-width: 1000px; margin: 0 auto;}
+    #bottom-panel {
+        padding: 2rem; background-color: #FCFCFC; position: absolute; bottom: 0; left: 0; right: 0;
+    }
+    @media (min-height: calc(100vh + 170px)) {
+        #bottom-panel {position: static;}
+    }
+    #bottom-panel h6 {font-size: 26px; margin: 0; display: inline-block;}
+    #bottom-panel span {margin-top: 20px; width: 400px; font-size: 8px;}
+    .price-card {
+        background: #ECECEC; min-height: 500px; display: flex; flex-direction: column;
+        justify-content: center; align-items: center; text-align: center; padding: 2rem; width: 100%;
+        color:#262626;
+    }
+    .price-card .level {font-size: 36px; margin-bottom: 2rem;}
+    .price-card .price {margin-bottom: 2rem;}
+    .price-card .desc {font-size: 10px; max-width: 80%; color: gray;}
+    .contact {display: flex; flex-direction: column; align-items: center; margin-top: 2rem; text-align: center;}
+    #qrcode-container {width: 100px; height: 100px; margin: 0.5rem auto;}
+    @media (prefers-color-scheme: dark) {
+        #bottom-panel {background-color: #28282A;}
+    }
+</style>
+
+<div id="content-box">
+    <div class="d-flex align-items-center justify-content-center">
+        <div class="price-card">
+            <span class="level bbh-sans-hegarty-regular">SaaS </span>
+            <div class="price">
+                <sub>CNY </sub><h1>8,999<span style="font-size: 10px;">起</span></h1>
+            </div>
+            <span class="desc">"软件即服务"开发费<br>首年免技术支持费，价格已含税。</span>
+        </div>
+    </div>
+
+    <div class="d-flex align-items-center justify-content-center" style="min-height: 300px; margin-bottom: 39px;">
+        <div class="contact">
+            <div id="qrcode-container"></div>
+            <span style="font-size: 10px;">使用微信扫描二维码</span>
+            <span style="font-size: 10px;">或使用电邮联络: st@oevon.com</span>
+        </div>
+    </div>
+</div>
+
+<div id="bottom-panel">
+    <div class="mb-2">
+        <h6 class="bebas-neue-regular">ESTO SVC</h6>
+    </div>
+    <span>
+        ESTO SVC 仅提供中国大陆服务 CHINESE MAINLAND SERVICE ONLY<br>
+        © ESTO 档案馆 <i>C3E07AFD6785</i>｜发行时间 Wed Jul 23 2025 22:48:33 GMT+0800｜本页面由 oevon.com 托管，不提供任何未经授权的服务。
+    </span>
+</div>
+
+<script>
+    const QR_URL = 'https://u.wechat.com/MPCre_h81mSwe-TaXA3S5vQ?s=2';
+    const qrOpts = (dark) => ({
+        width: 100,
+        color: {
+            dark: dark ? '#ECECEC' : '#1D1D1F',
+            light: dark ? '#212121' : '#F5F5F7'
+        }
+    });
+
+    function generateQRCode() {
+        const qrContainer = document.getElementById('qrcode-container');
+        if (!qrContainer || typeof QRCode === 'undefined') return;
+        qrContainer.innerHTML = '';
+        const canvas = document.createElement('canvas');
+        qrContainer.appendChild(canvas);
+        QRCode.toCanvas(canvas, QR_URL, qrOpts(window.matchMedia('(prefers-color-scheme: dark)').matches), console.error);
+    }
+
+    function checkContentHeight() {
+        const content = document.getElementById('content-box'), panel = document.getElementById('bottom-panel');
+        if (!content || !panel) return;
+        panel.style.position = (content.scrollHeight + panel.offsetHeight > window.innerHeight) ? 'static' : 'fixed';
+    }
+
+    (function loadLib(callback) {
+        const s = document.createElement('script');
+        s.src = 'https://cdn.jsdelivr.net/npm/qrcode@1.5.1/build/qrcode.min.js';
+        s.onload = callback;
+        s.onerror = () => console.error('二维码库加载失败');
+        document.body.appendChild(s);
+    })(function () {
+        generateQRCode();
+        checkContentHeight();
+        window.addEventListener('resize', checkContentHeight);
+        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', generateQRCode);
+    });
+</script>
+<div id="infoButton" class="info-button">i</div>
+<div id="infoPanel" class="info-panel">
+    <div class="info-content">
+        <p>2018-2026 © ESTO</p>
+        <p>POWERED BY SSRM TEAM・HOSTED BY OEVON.COM</p>
+        <p>SDC.2835b4ad-736c</p>
+        <p>(ESTO License) c9fded38-5b59-481f-9d38-54d1ccdb11cc</p>
+        <p><a href="https://creativecommons.org/licenses/by-nc-nd/4.0/">Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0) <small>Deed</small></a></p>
+    </div>
+</div>
+<div id="overlay" class="overlay"></div>
+
+<style>a{color:inherit;text-decoration:none}.info-button{position:fixed;bottom:15px;right:15px;width:15px;height:15px;border-radius:50%;background-color:rgba(220,220,221,0.6);color:#444445;display:flex;justify-content:center;align-items:center;font-size:10px;font-weight:bolder;cursor:pointer;z-index:1000;box-shadow:0px 0px 80px rgba(0,0,0,0.07)}.info-panel{position:fixed;top:0;right:0;height:100%;width:500px;background-color:#F5F5F7;color:#444445;box-shadow:-2px 0 8px rgba(0,0,0,0.2);transform:translateX(100%);transition:transform 0.3s ease;z-index:999;padding:2rem;font-size:10px}.info-panel.active{transform:translateX(0)}.overlay{position:fixed;top:0;left:0;width:100%;height:100%;background-color:rgba(0,0,0,0.5);opacity:0;visibility:hidden;transition:opacity 0.3s ease;z-index:998}.overlay.active{opacity:1;visibility:visible}@media (prefers-color-scheme:dark){.info-panel{color:#ECECEC;background-color:#212121}}@media (max-width:768px){.info-panel{bottom:0;top:auto;width:100%;height:35vh;border-radius:20px 20px 0 0;transform:translateY(100%);transition:transform 0.3s ease}.info-panel.active{transform:translateY(0)}}</style>
+    </main>
+</body>
+
+</html>
