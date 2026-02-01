@@ -4,56 +4,37 @@
     <meta charset="UTF-8">
     <title>oevon.com</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        :root {
+            background-color: #F5F5F7;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            :root {
+                background-color: #212121;
+            }
+        }
+
+        html, body {
+            margin: 0;
+            padding: 0;
+            min-height: 100%;
+            background-color: inherit;
+        }
+    </style>
 </head>
 <body>
-<script>
-(async function () {
-    const currentPath = location.pathname.toLowerCase();
-    const isHome = currentPath === '/' || currentPath === '/index.html';
-    const isArticlePath = currentPath.startsWith('/articles/');
+    <script>
+        (() => {
+            const params = new URLSearchParams(location.search);
+            const index = params.get('index')?.trim();
 
-    const params = new URLSearchParams(location.search);
-    const index = params.get('index');
-    const validIndex = index && index.trim();
-
-    if (isHome) {
-        if (validIndex) {
-            const target = `/articles/${validIndex.trim()}`;
-            try {
-                const res = await fetch(target, { 
-                    method: 'HEAD',
-                    timeout: 3000
-                });
-
-                if (res.ok) {
-                    location.replace(target);
-                } else {
-                    location.replace('/articles/latest');
-                }
-            } catch (error) {
+            if (index) {
+                location.replace(`/articles/${index}`);
+            } else {
                 location.replace('/articles/latest');
             }
-        } else {
-            location.replace('/articles/latest');
-        }
-        return;
-    }
-
-    if (isArticlePath) {
-        try {
-            const res = await fetch(currentPath, { 
-                method: 'HEAD',
-                timeout: 3000
-            });
-            if (!res.ok) {
-                location.replace('/articles/latest');
-            }
-        } catch (error) {
-            location.replace('/articles/latest');
-        }
-    }
-
-})();
-</script>
+        })();
+    </script>
 </body>
 </html>
